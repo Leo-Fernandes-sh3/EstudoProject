@@ -1,0 +1,46 @@
+name: User Story
+description: Descrição de uma necessidade do usuário final com base em valor de negócio.
+title: "[User Story] "
+labels: []
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🧾 User Story
+        Descreva aqui a necessidade do usuário final em formato simples e focado no valor.
+
+  - type: textarea
+    id: historia
+    attributes:
+      label: História do Usuário
+      description: Utilize o formato "Como um [tipo de usuário], eu quero [ação], para que [benefício]".
+      placeholder: |
+        Ex:
+        Como um usuário logado,  
+        Eu quero visualizar minhas informações pessoais em uma tela de perfil,  
+        Para que eu possa revisar meus dados de cadastro.
+    validations:
+      required: true
+
+  - type: textarea
+    id: criterios
+    attributes:
+      label: Critérios de Aceite
+      description: Liste o que deve ser validado para que essa User Story seja considerada completa.
+      placeholder: |
+        - Deve exibir nome, e-mail e telefone do usuário.
+        - Deve permitir editar os campos, exceto e-mail.
+        - Deve validar telefone com máscara de entrada.
+    validations:
+      required: false
+
+  - type: textarea
+    id: notas
+    attributes:
+      label: Notas adicionais
+      description: Algum detalhe técnico, regra de negócio ou observação relevante?
+      placeholder: Ex: A edição será em modal reutilizado em outras telas.
+    validations:
+      required: false
