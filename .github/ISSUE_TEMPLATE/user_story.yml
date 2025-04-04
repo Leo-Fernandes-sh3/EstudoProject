@@ -41,6 +41,7 @@ body:
     attributes:
       label: Notas adicionais
       description: Algum detalhe técnico, regra de negócio ou observação relevante?
-      placeholder: Ex: A edição será em modal reutilizado em outras telas.
+      placeholder: |
+        Ex: A edição será em modal reutilizado em outras telas.
     validations:
       required: false
