@@ -1,0 +1,69 @@
+name: Feature
+description: Solicitação de uma nova funcionalidade de nível mais alto (Feature)
+title: "[Feature] "
+labels: []
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ✨ Solicitação de Feature
+        Uma feature representa uma **funcionalidade maior**, normalmente composta por várias user stories. Preencha os campos abaixo com a visão geral da funcionalidade.
+
+  - type: input
+    id: titulo
+    attributes:
+      label: Título da Feature
+      description: Nome resumido da funcionalidade proposta.
+      placeholder: |
+        Ex: "Integração com sistema de pagamento"
+    validations:
+      required: true
+
+  - type: textarea
+    id: objetivo
+    attributes:
+      label: Objetivo
+      description: Descreva o propósito geral desta feature e qual problema ela resolve.
+      placeholder: |
+        Ex:
+        Permitir aos usuários realizar pagamentos diretamente na plataforma usando cartão de crédito ou Pix.
+    validations:
+      required: true
+
+  - type: textarea
+    id: escopo
+    attributes:
+      label: Escopo da Feature
+      description: Liste brevemente o que está incluído e, se necessário, o que está fora do escopo.
+      placeholder: |
+        Inclui:
+        - Integração com API de pagamento
+        - Tela de checkout
+        - Validação de dados do cartão
+
+        Não inclui:
+        - Suporte a boletos
+    validations:
+      required: false
+
+  - type: textarea
+    id: dependencia
+    attributes:
+      label: Dependências (se houver)
+      description: Esta feature depende de alguma outra já existente?
+      placeholder: |
+        Ex: Requer autenticação implementada previamente.
+    validations:
+      required: false
+
+  - type: textarea
+    id: notas
+    attributes:
+      label: Notas adicionais
+      description: Algum detalhe extra para o time de produto ou desenvolvimento?
+      placeholder: |
+        Ex: Feature obrigatória para o MVP da primeira versão.
+    validations:
+      required: false
