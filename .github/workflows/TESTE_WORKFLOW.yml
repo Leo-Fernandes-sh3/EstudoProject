@@ -46,12 +46,30 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
 
+#      - name: Obter item-id da issue no projeto
+#        if: env.IS_BUG == 'true'
+#        run: |
+#          ISSUE_NUMBER=${{ github.event.issue.number }}
+#          ITEM_ID=$(gh project item-list --project-id "$PROJECT_ID" --format json \
+#            | jq -r --arg num "$ISSUE_NUMBER" '.[] | select(.content.number == ($num | tonumber)) | .id')
+#          echo "ITEM_ID=$ITEM_ID" >> $GITHUB_ENV
+#        env:
+#          GH_TOKEN: ${{ secrets.GH_PAT }}
+
       - name: Obter item-id da issue no projeto
         if: env.IS_BUG == 'true'
         run: |
           ISSUE_NUMBER=${{ github.event.issue.number }}
-          ITEM_ID=$(gh project item-list --project-id "$PROJECT_ID" --format json \
-            | jq -r --arg num "$ISSUE_NUMBER" '.[] | select(.content.number == ($num | tonumber)) | .id')
+          ITEM_ID=$(gh project item-list 5 --owner Leo-Fernandes-sh3 --format json \
+            | jq -r --arg num "$ISSUE_NUMBER" '.items[] | select(.content.number == ($num | tonumber)) | .id')
+
+          echo "::notice::ITEM_ID=$ITEM_ID"
+
+          if [ -z "$ITEM_ID" ]; then
+            echo "::error::Item da issue não encontrado no projeto"
+            exit 1
+          fi
+
           echo "ITEM_ID=$ITEM_ID" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
@@ -75,5 +93,3 @@ jobs:
             --single-select-option-id 40c1efaf
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-
-
