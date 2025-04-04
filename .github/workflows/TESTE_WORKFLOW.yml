@@ -26,7 +26,7 @@ jobs:
 #            | jq -r '.projects[] | select(.number == 5) | .id')
 #          echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
 #        env:
-#          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          GH_TOKEN: ${{ secrets.GH_PAT }}
 
       - name: Obter project-id pelo número do projeto
         if: env.IS_BUG == 'true'
@@ -44,7 +44,7 @@ jobs:
 
           echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
 
       - name: Obter item-id da issue no projeto
         if: env.IS_BUG == 'true'
@@ -54,7 +54,7 @@ jobs:
             | jq -r --arg num "$ISSUE_NUMBER" '.[] | select(.content.number == ($num | tonumber)) | .id')
           echo "ITEM_ID=$ITEM_ID" >> $GITHUB_ENV
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
 
       - name: Obter field-id do campo "Work Item"
         if: env.IS_BUG == 'true'
@@ -63,7 +63,7 @@ jobs:
             | jq -r '.fields[] | select(.name == "Work Item") | .id')
           echo "FIELD_ID=$FIELD_ID" >> $GITHUB_ENV
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
 
       - name: Atualizar campo Work Item como 'Bug'
         if: env.IS_BUG == 'true'
@@ -74,6 +74,6 @@ jobs:
             --field-id "$FIELD_ID" \
             --single-select-option-id 40c1efaf
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
 
 
