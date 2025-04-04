@@ -1,6 +1,7 @@
 name: Bug Report
 description: Reporte um erro encontrado no sistema
 title: "[Bug] "
+labels: ["tipo: bug"]
 assignees: []
 
 body:
@@ -14,7 +15,8 @@ body:
     attributes:
       label: Descrição do problema
       description: Resuma claramente o que está acontecendo de errado.
-      placeholder: Ex: Ao clicar no botão de login, nada acontece.
+      placeholder: |
+        Ex: Ao clicar no botão de login, nada acontece.
     validations:
       required: true
 
@@ -36,7 +38,8 @@ body:
     attributes:
       label: Ambiente
       description: Em qual ambiente o erro foi encontrado?
-      placeholder: Ex: Produção, Homologação, Local...
+      placeholder: |
+        Ex: Produção, Homologação, Local...
     validations:
       required: true
 
@@ -58,6 +61,7 @@ body:
     attributes:
       label: Capturas de tela ou evidências (opcional)
       description: Se possível, anexe prints ou links com vídeos.
-      placeholder: Arraste imagens aqui ou cole links (ex: imgur.com, loom.com)
+      placeholder: |
+        Arraste imagens aqui ou cole links (ex: imgur.com, loom.com)
     validations:
       required: false
