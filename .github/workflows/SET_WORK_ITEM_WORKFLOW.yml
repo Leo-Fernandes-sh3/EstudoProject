@@ -19,15 +19,6 @@ jobs:
             echo "IS_BUG=true" >> $GITHUB_ENV
           fi
 
-#      - name: Obter project-id pelo número do projeto
-#        if: env.IS_BUG == 'true'
-#        run: |
-#          PROJECT_ID=$(gh project list --owner Leo-Fernandes-sh3 --format json \
-#            | jq -r '.projects[] | select(.number == 5) | .id')
-#          echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
-#        env:
-#          GH_TOKEN: ${{ secrets.GH_PAT }}
-
       - name: Obter project-id pelo número do projeto
         if: env.IS_BUG == 'true'
         run: |
@@ -45,16 +36,6 @@ jobs:
           echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-
-#      - name: Obter item-id da issue no projeto
-#        if: env.IS_BUG == 'true'
-#        run: |
-#          ISSUE_NUMBER=${{ github.event.issue.number }}
-#          ITEM_ID=$(gh project item-list --project-id "$PROJECT_ID" --format json \
-#            | jq -r --arg num "$ISSUE_NUMBER" '.[] | select(.content.number == ($num | tonumber)) | .id')
-#          echo "ITEM_ID=$ITEM_ID" >> $GITHUB_ENV
-#        env:
-#          GH_TOKEN: ${{ secrets.GH_PAT }}
 
       - name: Obter item-id da issue no projeto
         if: env.IS_BUG == 'true'
