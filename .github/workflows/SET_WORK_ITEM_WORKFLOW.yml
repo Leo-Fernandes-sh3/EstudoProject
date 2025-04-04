@@ -1,28 +1,45 @@
-name: Setar Work Item como 'Bug'
+name: Setar Work Item automaticamente
 
 on:
   issues:
     types: [opened]
 
 jobs:
-  setar_workitem_bug:
+  setar_workitem:
     runs-on: ubuntu-latest
     permissions:
       issues: read
       contents: read
 
     steps:
-      - name: Verifica se é bug pelo título
-        id: checar
+      - name: Detectar tipo de Work Item pelo título
+        id: checar_tipo
         run: |
-          if [[ "${{ github.event.issue.title }}" == "[Bug]"* ]]; then
-            echo "IS_BUG=true" >> $GITHUB_ENV
+          TITLE="${{ github.event.issue.title }}"
+
+          if [[ "$TITLE" == "[Epic]"* ]]; then
+            echo "WORKITEM_TYPE=Epic" >> $GITHUB_ENV
+            echo "WORKITEM_ID=dfaa6f33" >> $GITHUB_ENV
+          elif [[ "$TITLE" == "[Feature]"* ]]; then
+            echo "WORKITEM_TYPE=Feature" >> $GITHUB_ENV
+            echo "WORKITEM_ID=1c577033" >> $GITHUB_ENV
+          elif [[ "$TITLE" == "[User Story]"* ]]; then
+            echo "WORKITEM_TYPE=User Story" >> $GITHUB_ENV
+            echo "WORKITEM_ID=479d4cd7" >> $GITHUB_ENV
+          elif [[ "$TITLE" == "[Bug]"* ]]; then
+            echo "WORKITEM_TYPE=Bug" >> $GITHUB_ENV
+            echo "WORKITEM_ID=40c1efaf" >> $GITHUB_ENV
+          elif [[ "$TITLE" == "[Incident]"* ]]; then
+            echo "WORKITEM_TYPE=Incident" >> $GITHUB_ENV
+            echo "WORKITEM_ID=16f9a1a3" >> $GITHUB_ENV
+          elif [[ "$TITLE" == "[Task]"* ]]; then
+            echo "WORKITEM_TYPE=Task" >> $GITHUB_ENV
+            echo "WORKITEM_ID=69c61e35" >> $GITHUB_ENV
           fi
 
       - name: Obter project-id pelo número do projeto
-        if: env.IS_BUG == 'true'
+        if: env.WORKITEM_ID
         run: |
-          echo "🔎 Buscando project-id..."
           PROJECT_ID=$(gh project list --owner Leo-Fernandes-sh3 --format json \
             | jq -r '.projects[] | select(.number == 5) | .id')
 
@@ -38,7 +55,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }}
 
       - name: Obter item-id da issue no projeto
-        if: env.IS_BUG == 'true'
+        if: env.WORKITEM_ID
         run: |
           ISSUE_NUMBER=${{ github.event.issue.number }}
           ITEM_ID=$(gh project item-list 5 --owner Leo-Fernandes-sh3 --format json \
@@ -56,7 +73,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }}
 
       - name: Obter field-id do campo "Work Item"
-        if: env.IS_BUG == 'true'
+        if: env.WORKITEM_ID
         run: |
           FIELD_ID=$(gh project field-list 5 --owner Leo-Fernandes-sh3 --format json \
             | jq -r '.fields[] | select(.name == "Work Item") | .id')
@@ -64,13 +81,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
 
-      - name: Atualizar campo Work Item como 'Bug'
-        if: env.IS_BUG == 'true'
+      - name: Atualizar campo Work Item com tipo detectado
+        if: env.WORKITEM_ID
         run: |
+          echo "::notice::Atribuindo Work Item como $WORKITEM_TYPE"
           gh project item-edit \
             --id "$ITEM_ID" \
             --project-id "$PROJECT_ID" \
             --field-id "$FIELD_ID" \
-            --single-select-option-id 40c1efaf
+            --single-select-option-id "$WORKITEM_ID"
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
+          WORKITEM_TYPE: ${{ env.WORKITEM_TYPE }}
+          WORKITEM_ID: ${{ env.WORKITEM_ID }}
